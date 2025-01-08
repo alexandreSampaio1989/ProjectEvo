@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Evox - Index</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+</head>
+<body>
+    <h1>Pagina Inicial</h1>
+
+    <img src="{% static 'images/psn.png'%}">
+
+    <h2>{{ curso }}</h2>
+
+    <table>
+        <thead>
+            <th>Produto</th>
+            <th>Quantidade em Estoque</th>
+            <th>Preço</th>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+                <tr>
+                    <td>
+                        <a href="{% url 'produto' produto.id %}">{{ produto.nome}}</a>
+                    </td>
+                    <td>{{ produto.qtEstoque}}</td>
+                    <td>{{ produto.preco}}</td>
+                </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+</body>
+</html>
