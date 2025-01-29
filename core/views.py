@@ -21,16 +21,7 @@ def contact(request):
 
     if str(request.method) == 'POST':
         if form.is_valid():
-            nome = form.cleaned_data['nome']
-            email = form.cleaned_data['email']
-            assunto = form.cleaned_data['assunto']
-            mensagem = form.cleaned_data['mensagem']
-
-            print('Mensagem Enviada')
-            print(f'Nome: {nome}')
-            print(f'E-Mail: {email}')
-            print(f'Assunto: {assunto}')
-            print(f'Mensagem: {mensagem}')
+            form.send_mail()
 
             messages.success(request, 'E-Mail enviado com sucesso')
             form = ContatoForm()

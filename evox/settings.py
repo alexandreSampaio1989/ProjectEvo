@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import LOGOUT_REDIRECT_URL
+from django.conf.global_settings import LOGOUT_REDIRECT_URL, EMAIL_BACKEND
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,3 +136,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'index'
+
+# configuração de E-Mail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+"""
+# CONFIGURAÇÃO REAL
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = 'not-reply@seudominio.com.br'
+EMAIL_PORT = 587
+EMAIL_USER_TSL = True
+EMAIL_HOST_PASSWORD = 'SUA SENHA'
+"""
