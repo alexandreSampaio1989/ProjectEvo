@@ -1,11 +1,16 @@
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Evox - Produto</title>
+    {% bootstrap_css %}
 </head>
 <body>
   <h1>Pagina de Produto</h1>
     <em>{{ produto.nome }}</em>
+    <img src="{% produto.imagem %}">
+
+    {% bootstrap_javascript %}
 </body>
 </html>

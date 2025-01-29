@@ -1,9 +1,14 @@
 from django.db import models
+from stdimage.models import StdImageField
+
+# SIGNALS
+from django.db.models import signals
+from django.template.defaultfilters import slugify
 
 class Base(models.Model):
-    criacao = models.DateTimeField(auto_now_add=True)
-    atualizacao = models.DateTimeField(auto_now_add=True)
-    delecao = models.DateTimeField(auto_now_add=True)
+    criado = models.DateTimeField(auto_now_add=True)
+    atualizado = models.DateTimeField(auto_now_add=True)
+    deletado = models.DateTimeField(auto_now_add=True)
     ativo = models.BooleanField(default=True)
 
     class Meta:
@@ -13,6 +18,8 @@ class Produto(Base):
     nome = models.CharField('Nome', max_length=100)
     preco = models.DecimalField('Preço', decimal_places=2, max_digits=50)
     qtEstoque = models.IntegerField('Quantidade em Estoque')
+    imagem = StdImageField('Imagem', upload_to='produtos', variations={'thumb': (124, 124)})
+    slug = models.SlugField('Slug', max_length=100, blank=True, editable=False)
 
     def __str__(self):
         return self.nome
@@ -27,3 +34,9 @@ class Produto(Base):
 #        abstract = True
 
 #class Fornecedor(Pessoa):
+
+
+def produto_pre_save(signal, instance, sender, **kwargs):
+    instance.slug = slugify(instance.nome)
+
+signals.pre_save.connect(produto_pre_save, sender=Produto)

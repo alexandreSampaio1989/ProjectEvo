@@ -1,35 +1,70 @@
 {% load static %}
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Evox - Index</title>
+    {% bootstrap_css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
 </head>
 <body>
-    <h1>Pagina Inicial</h1>
+    <div class="container">
+        <h1>Pagina Inicial</h1>
 
-    <img src="{% static 'images/psn.png'%}">
+        <a href="{% url 'form_produto' %}">Novo Produto</a>
+        <hr />
+        <table class="table table-striped table-hover">
+            <thead>
+                <th scope="col">#</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Estoque</th>
+                <th scope="col">Preço</th>
+                <th scope="col"></th>
+            </thead>
+            <tbody>
+                {% for prod in produtos %}
+                    <tr>
+                        <td scope="row">
+                            <a href="{% url 'produto' prod.id %}">{{ prod.id }}</a>
+                        </td>
+                        <td scope="row">{{ prod.nome }}</td>
+                        <td scope="row">{{ prod.qtEstoque }}</td>
+                        <td scope="row">{{ prod.preco }}</td>
+                        <td scope="row">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_produto_{{prod.id}}">
+                              IMAGEM
+                            </a>
+                        </td>
+                    </tr>
 
-    <h2>{{ curso }}</h2>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal_produto_{{prod.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">{{ prod.nome }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <img src="{{ prod.imagem.url }}" class="img-fluid" alt="{{ prod.nome }}">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
 
-    <table>
-        <thead>
-            <th>Produto</th>
-            <th>Quantidade em Estoque</th>
-            <th>Preço</th>
-        </thead>
-        <tbody>
-            {% for produto in produtos %}
-                <tr>
-                    <td>
-                        <a href="{% url 'produto' produto.id %}">{{ produto.nome}}</a>
-                    </td>
-                    <td>{{ produto.qtEstoque}}</td>
-                    <td>{{ produto.preco}}</td>
-                </tr>
-            {% endfor%}
-        </tbody>
-    </table>
+
+
+
+
+    {% bootstrap_javascript %}
 </body>
 </html>

@@ -1,8 +1,9 @@
 from django.urls import path
-from core.views import index, contact, product
+from core.views import index, contato, produto, form_produto
 
 urlpatterns = [
-    path('', index),
-    path('contato', contact, name='contato'),
-    path('produto/<int:pk>', product, name='produto')
+    path('', index, name='index'),
+    path('contato', contato, name='contato'),
+    path('produto/<int:pk>', produto, name='produto'),
+    path('produto/novo', form_produto, name='form_produto'),
 ]

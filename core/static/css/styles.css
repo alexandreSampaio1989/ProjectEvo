@@ -1,8 +1,9 @@
-body {
-    background: #341256;
-    color: lightgreen;
+a {
+    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+    text-decoration: none;
 }
 
-a {
-    color: #ffffff
+a:hover {
+    color: darkblue;
+    text-decoration: underline;
 }
