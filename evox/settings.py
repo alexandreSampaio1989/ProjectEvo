@@ -11,25 +11,28 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-
 from django.conf.global_settings import LOGOUT_REDIRECT_URL, EMAIL_BACKEND
+
+from configobj import ConfigObj
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+# INÍCIO DO CARREGAMENTO DA CONFIGURAÇÃO DE AMBIENTE
+ENV_CONF_FILE = f'{BASE_DIR}/evox/config/env.conf'
+ENV_CONFIG = ConfigObj(ENV_CONF_FILE)
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b1^#mb3^y)v%pzee-xawb5c)!w)!9!fwwvi73k55kdsyml06+_'
+SECRET_KEY = ENV_CONFIG['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV_CONFIG['DEBUG']
 #DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -80,14 +83,17 @@ WSGI_APPLICATION = 'evox.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DB_CONF_FILE = f'{BASE_DIR}/evox/config/mysql.conf'
+DB_CONFIG = ConfigObj(DB_CONF_FILE)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_evox',
-        'USER': 'devmaster',
-        'PASSWORD': 'devmaster999',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE':   DB_CONFIG['DB_ENGINE'],
+        'NAME':     DB_CONFIG['DB_NAME'],
+        'USER':     DB_CONFIG['DB_USER'],
+        'PASSWORD': DB_CONFIG['DB_PASSWORD'],
+        'HOST':     DB_CONFIG['DB_HOST'],
+        'PORT':     DB_CONFIG['DB_PORT'],
     }
 }
 
@@ -113,14 +119,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
-
-TIME_ZONE = 'America/Sao_Paulo'
-
+LANGUAGE_CODE = ENV_CONFIG['LANGUAGE_CODE']
+TIME_ZONE = ENV_CONFIG['TIME_ZONE']
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -128,8 +130,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = f'/{ENV_CONFIG['MEDIA_DIR']}/'
+MEDIA_ROOT = os.path.join(BASE_DIR, ENV_CONFIG['MEDIA_DIR'])
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
