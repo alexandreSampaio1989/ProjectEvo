@@ -1,0 +1,27 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Evox - Contato</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container">
+        <h1>Contato</h1>
+        {% bootstrap_messages %}
+
+        {# Display a form #}
+        <form action="{% url 'contato' %}" method="post" class="form" autocomplete="off">
+          {% csrf_token %}
+
+          {% bootstrap_form contato_form %}
+
+          {% bootstrap_button button_type="submit" content="Enviar mensagem" %}
+          {% bootstrap_button button_type="reset" content="Cancel" %}
+
+        </form>
+    </div>
+    {% bootstrap_javascript %}
+</body>
+</html>

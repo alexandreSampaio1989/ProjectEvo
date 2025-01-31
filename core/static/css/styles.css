@@ -1,0 +1,9 @@
+a {
+    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+    text-decoration: none;
+}
+
+a:hover {
+    color: darkblue;
+    text-decoration: underline;
+}
